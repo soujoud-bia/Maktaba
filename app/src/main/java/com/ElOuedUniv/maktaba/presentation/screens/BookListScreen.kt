@@ -69,16 +69,30 @@ fun BookList(
     books: List<Book>,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+
+    Column(
+        modifier = modifier.fillMaxSize()
     ) {
-        items(books) { book ->
-            BookItem(book = book)
+
+        Text(
+            text = "Total Books: ${books.size}",
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier
+                .padding(16.dp)
+        )
+
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(books) { book ->
+                BookItem(book = book)
+            }
         }
     }
 }
+
 
 /**
  * Composable for displaying a single book item

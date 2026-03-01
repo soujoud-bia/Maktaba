@@ -33,6 +33,11 @@ class BookRepository {
         Book(isbn = "978-1-68-392622-1", title = "The Mythical Man-Month", nbPages = 572),
         Book(isbn = "978-0-13-277804-6", title = "Effective Java", nbPages = 384),
         Book(isbn = "978-1-49-190526-5", title = "You Don’t Know JS Yet", nbPages = 278),
+        Book(isbn = "", title = "Clean Code", nbPages = 0),
+        Book(isbn = "", title = "The Pragmatic Programmer", nbPages = 0),
+        Book(isbn = "", title = "Design Patterns", nbPages = 0),
+        Book(isbn = "", title = "Refactoring", nbPages = 0),
+        Book(isbn = "", title = "Head First Design Patterns", nbPages = 0)
     )
 
     /**

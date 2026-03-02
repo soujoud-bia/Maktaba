@@ -2,6 +2,12 @@ package com.ElOuedUniv.maktaba.data.repository
 
 import com.ElOuedUniv.maktaba.data.model.Book
 
+interface BookRepository {
+
+    fun getAllBooks(): List<Book>
+
+    fun getBookByIsbn(isbn: String): Book?
+}
 /**
  * Repository for managing book data
  * This follows the Repository pattern to abstract data sources
@@ -60,12 +66,3 @@ class BookRepository {
         return booksList
     }
 
-    /**
-     * Get a book by ISBN
-     * @param isbn The ISBN of the book to find
-     * @return The book if found, null otherwise
-     */
-    fun getBookByIsbn(isbn: String): Book? {
-        return booksList.find { it.isbn == isbn }
-    }
-}

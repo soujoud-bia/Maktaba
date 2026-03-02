@@ -1,8 +1,10 @@
-package com.ElOuedUniv.maktaba.presentation.screens
+package com.ElOuedUniv.maktaba.presentation.view
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -14,13 +16,11 @@ import androidx.compose.ui.unit.dp
 import com.ElOuedUniv.maktaba.data.model.Book
 import com.ElOuedUniv.maktaba.presentation.viewmodel.BookViewModel
 
-/**
- * Main screen displaying the list of books
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BookListScreen(
-    viewModel: BookViewModel
+fun BookListView(
+    viewModel: BookViewModel,
+    onCategoriesClick: () -> Unit = {}
 ) {
     val books by viewModel.books.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
@@ -29,6 +29,14 @@ fun BookListScreen(
         topBar = {
             TopAppBar(
                 title = { Text("Maktaba - My Library") },
+                actions = {
+                    IconButton(onClick = onCategoriesClick) {
+                        Icon(
+                            imageVector = Icons.Default.Menu,
+                            contentDescription = "Categories"
+                        )
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -61,9 +69,6 @@ fun BookListScreen(
     }
 }
 
-/**
- * Composable for displaying a list of books
- */
 @Composable
 fun BookList(
     books: List<Book>,
@@ -132,7 +137,7 @@ fun BookItem(book: Book) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
-            ) {
+              ) {
                 Column {
                     Text(
                         text = "ISBN:",
@@ -161,9 +166,6 @@ fun BookItem(book: Book) {
     }
 }
 
-/**
- * Composable for displaying empty state message
- */
 @Composable
 fun EmptyBooksMessage(modifier: Modifier = Modifier) {
     Column(
@@ -188,3 +190,4 @@ fun EmptyBooksMessage(modifier: Modifier = Modifier) {
         )
     }
 }
+

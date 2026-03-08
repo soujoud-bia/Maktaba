@@ -74,13 +74,21 @@ fun CategoryList(
     categories: List<Category>,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        items(categories) { category ->
-            CategoryItem(category = category)
+    Column(modifier = modifier.fillMaxSize()) {
+
+        Text(
+            text = "Total Categories: ${categories.size}",
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(16.dp)
+        )
+
+        LazyColumn(
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(categories) { category ->
+                CategoryItem(category = category)
+            }
         }
     }
 }
@@ -96,15 +104,24 @@ fun CategoryItem(category: Category) {
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
+            // اسم التصنيف
             Text(
-                text = "Category Item",
+                text = category.name,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
+            )
+
+            Spacer(modifier = Modifier.height(8.dp)) // مسافة صغيرة بين الاسم والوصف
+
+            // وصف التصنيف
+            Text(
+                text = category.description,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
 }
-
 @Composable
 fun EmptyCategoriesMessage(modifier: Modifier = Modifier) {
     Column(

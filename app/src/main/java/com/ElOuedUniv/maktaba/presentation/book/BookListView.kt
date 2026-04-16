@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ElOuedUniv.maktaba.data.model.Book
 import com.ElOuedUniv.maktaba.presentation.book.BookViewModel
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -24,17 +26,26 @@ fun BookListView(
     onCategoriesClick: () -> Unit = {},
     viewModel: BookViewModel = hiltViewModel()
 ) {
-    val books by viewModel.books.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
+    // المهمة 1: استهلاك الـ uiState الموحدة بدلاً من المتغيرات المنفصلة
+    val uiState by viewModel.uiState.collectAsState()
+
+    // المهمة 2: استخراج البيانات من داخل الـ State الجديد
+    val books = uiState.books
+    val isLoading = uiState.isLoading
     
     // TODO: Exercise 3 - Use a single delegated state from the ViewModel
     // val uiState by viewModel.uiState.collectAsState()
 
-    if (/* TODO: uiState.isAddingBook */ false) {
+    if (/* TODO: uiState.isAddingBook */ uiState.isAddingBook) {
         AddBookDialog(
-            onDismiss = { /* TODO: viewModel.onAction(BookUiAction.OnDismissAddBook) */ },
+            onDismiss = {   viewModel.onAction(BookUiAction.OnDismissAddBook)  },
             onConfirm = { title, isbn, pages ->
-                /* TODO: viewModel.onAction(BookUiAction.OnAddBookConfirm(title, isbn, pages)) */
+                val newBook = Book(
+                    isbn = isbn,
+                    title = title,
+                    nbPages = pages.toString().toIntOrNull() ?: 0
+                )
+                viewModel.onAction(BookUiAction.OnAddBookConfirm(newBook))
             }
         )
     }
@@ -58,13 +69,13 @@ fun BookListView(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { 
-                /* TODO: Exercise 3 - viewModel.onAction(BookUiAction.OnAddBookClick) */
-            }) {
-                Icon(
-                    imageVector = androidx.compose.material.icons.Icons.Default.Add,
-                    contentDescription = "Add Book"
-                )
+            FloatingActionButton(
+                onClick = {
+                    // 4. ربط الزر بالأكشن
+                    viewModel.onAction(BookUiAction.OnAddBookClick)
+                }
+            ) {
+                Icon(Icons.Default.Add, contentDescription = "Add Book")
             }
         }
     ) { paddingValues ->
